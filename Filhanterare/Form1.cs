@@ -42,6 +42,8 @@ namespace Filhanterare
         private void newTextField(object sender, EventArgs e)
         {
             Form1.richTextBoxWindow.Text = string.Empty;
+
+            Form1.ActiveForm.Text = "dok1.txt".ToString();
         }
     }
 }
