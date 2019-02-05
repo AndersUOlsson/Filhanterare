@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -59,6 +60,10 @@ namespace Filhanterare
                         if (fileContent != null)
                         {
                             Form1.richTextBoxWindow.Text = fileContent.ToString();
+                            string path = filePath.ToString();
+                            string[] pathArr = path.Split('\\');
+                            string fileName = pathArr.Last().ToString();
+                            Form1.ActiveForm.Text = fileName.ToString();
                         }
                     }
                 }

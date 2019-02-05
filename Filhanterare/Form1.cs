@@ -38,5 +38,10 @@ namespace Filhanterare
         {
             NameOfTheCurrentText = DialogHandler.OpenFileDialogWindow();
         }
+
+        private void newTextField(object sender, EventArgs e)
+        {
+            Form1.richTextBoxWindow.Text = string.Empty;
+        }
     }
 }
