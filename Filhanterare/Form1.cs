@@ -12,6 +12,10 @@ namespace Filhanterare
         public Form1()
         {
             InitializeComponent();
+           
+            richTextBoxWindow.DragDrop += new DragEventHandler(RichTextBoxWindow_DragDrop);
+            richTextBoxWindow.EnableAutoDragDrop = false;
+            richTextBoxWindow.AllowDrop = true;
             OtherInitialize();
         }
 
@@ -93,15 +97,34 @@ namespace Filhanterare
                         e.Cancel = false;
                     }
                     break;
-                case DialogResult.Cancel:
-                    e.Cancel = true;
-                    break;
-                case DialogResult.No:
-                    e.Cancel = true;
-                    break;
                 default:
                     e.Cancel = true;
                     break;
+            }
+        }
+
+        void RichTextBoxWindow_DragDrop(object sender, DragEventArgs e)
+        {
+            object filename = e.Data.GetData("FileDrop");
+            if (filename != null)
+            {
+                try
+                {
+
+
+                    if (filename is string[] list && !string.IsNullOrWhiteSpace(list[0]))
+                    {
+                        //richTextBoxWindow.Clear();
+                        richTextBoxWindow.LoadFile(list[0], RichTextBoxStreamType.PlainText);
+                    }
+
+                }
+                catch(Exception ex)
+                {
+                    throw ex;
+                }
+               
+
             }
         }
     }

@@ -50,7 +50,6 @@ namespace Filhanterare
 
                         //Read the contents of the file into a stream
                         var fileStream = openFileDialog.OpenFile();
-
                         using (StreamReader reader = new StreamReader(fileStream))
                         {
                             fileContent = reader.ReadToEnd();

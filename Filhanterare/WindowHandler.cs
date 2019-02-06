@@ -9,5 +9,10 @@
                 System.Windows.Forms.Form.ActiveForm.Text = System.Windows.Forms.Form.ActiveForm.Text.ToString() + "*";
             }
         }
+
+        public void DragAndDrop()
+        {
+
+        }
     }
 }
