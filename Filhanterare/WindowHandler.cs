@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Filhanterare
+﻿namespace Filhanterare
 {
     class WindowHandler
     {
+        public void TextChange()
+        {
+            if (!System.Windows.Forms.Form.ActiveForm.Text.Contains("*"))
+            {
+                System.Windows.Forms.Form.ActiveForm.Text = System.Windows.Forms.Form.ActiveForm.Text.ToString() + "*";
+            }
+        }
     }
 }

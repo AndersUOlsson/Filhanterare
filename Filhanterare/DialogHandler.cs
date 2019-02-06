@@ -12,9 +12,8 @@ namespace Filhanterare
         private static string filePath = string.Empty;
 
         //Saves the file. If there is no file path then the function calls the save as function.
-        public static void SaveFile()
+        public static void SaveFile(string text)
         {
-            string text = Form1.richTextBoxWindow.Text;
             if (text != string.Empty && filePath != string.Empty)
             {
                 try
@@ -28,7 +27,7 @@ namespace Filhanterare
             }
             else
             {
-                SaveAsDialogWindow();
+                SaveAsDialogWindow(text);
             }
         }
 
@@ -59,7 +58,6 @@ namespace Filhanterare
 
                         if (fileContent != null)
                         {
-                            Form1.richTextBoxWindow.Text = fileContent.ToString();
                             string path = filePath.ToString();
                             string[] pathArr = path.Split('\\');
                             string fileName = pathArr.Last().ToString();
@@ -72,23 +70,21 @@ namespace Filhanterare
             {
                 throw new ApplicationException("Something wrong happened in the open module :", e);
             }
-            return filePath.ToString();
+            return fileContent.ToString();
         }
 
         //This is the save as function and it thus what you expect. Throw exception otherwise.
-        public static void SaveAsDialogWindow()
+        public static void SaveAsDialogWindow(string text)
         {
             try
             {
-                
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog
                 {
                     Filter = "Text|*.txt",
                     Title = "Save an text File"
                 };
                 saveFileDialog1.ShowDialog();
-                string text = Form1.richTextBoxWindow.Text;
-
+                
                 // If the file name is not an empty string open it for saving.  
                 if (saveFileDialog1.FileName != "")
                 {
@@ -102,6 +98,7 @@ namespace Filhanterare
                             f.Close();
                         }
                     }
+                    filePath = saveFileDialog1.FileName.ToString();
                 }
             }
             catch(IOException e)

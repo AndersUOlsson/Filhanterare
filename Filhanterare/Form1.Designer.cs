@@ -30,16 +30,18 @@
         {
             this.SaveBtn = new System.Windows.Forms.Button();
             this.SaveAsBtn = new System.Windows.Forms.Button();
-            richTextBoxWindow = new System.Windows.Forms.RichTextBox();
+            this.richTextBoxWindow = new System.Windows.Forms.RichTextBox();
             this.OpenFileBtn = new System.Windows.Forms.Button();
             this.newBtn = new System.Windows.Forms.Button();
+            this.InformationLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // SaveBtn
             // 
-            this.SaveBtn.Location = new System.Drawing.Point(14, 8);
+            this.SaveBtn.Location = new System.Drawing.Point(9, 5);
+            this.SaveBtn.Margin = new System.Windows.Forms.Padding(2);
             this.SaveBtn.Name = "SaveBtn";
-            this.SaveBtn.Size = new System.Drawing.Size(92, 45);
+            this.SaveBtn.Size = new System.Drawing.Size(61, 29);
             this.SaveBtn.TabIndex = 0;
             this.SaveBtn.Text = "Save";
             this.SaveBtn.UseVisualStyleBackColor = true;
@@ -47,9 +49,10 @@
             // 
             // SaveAsBtn
             // 
-            this.SaveAsBtn.Location = new System.Drawing.Point(111, 9);
+            this.SaveAsBtn.Location = new System.Drawing.Point(74, 6);
+            this.SaveAsBtn.Margin = new System.Windows.Forms.Padding(2);
             this.SaveAsBtn.Name = "SaveAsBtn";
-            this.SaveAsBtn.Size = new System.Drawing.Size(108, 43);
+            this.SaveAsBtn.Size = new System.Drawing.Size(72, 28);
             this.SaveAsBtn.TabIndex = 1;
             this.SaveAsBtn.Text = "Save As...";
             this.SaveAsBtn.UseVisualStyleBackColor = true;
@@ -57,17 +60,22 @@
             // 
             // richTextBoxWindow
             // 
-            richTextBoxWindow.Location = new System.Drawing.Point(14, 66);
-            richTextBoxWindow.Name = "richTextBoxWindow";
-            richTextBoxWindow.Size = new System.Drawing.Size(775, 861);
-            richTextBoxWindow.TabIndex = 2;
-            richTextBoxWindow.Text = "";
+            this.richTextBoxWindow.EnableAutoDragDrop = true;
+            this.richTextBoxWindow.Font = new System.Drawing.Font("Cooper Black", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBoxWindow.Location = new System.Drawing.Point(9, 43);
+            this.richTextBoxWindow.Margin = new System.Windows.Forms.Padding(2);
+            this.richTextBoxWindow.Name = "richTextBoxWindow";
+            this.richTextBoxWindow.Size = new System.Drawing.Size(518, 541);
+            this.richTextBoxWindow.TabIndex = 2;
+            this.richTextBoxWindow.Text = "";
+            this.richTextBoxWindow.TextChanged += new System.EventHandler(this.RichTextBoxWindow_TextChanged);
             // 
             // OpenFileBtn
             // 
-            this.OpenFileBtn.Location = new System.Drawing.Point(699, 9);
+            this.OpenFileBtn.Location = new System.Drawing.Point(466, 6);
+            this.OpenFileBtn.Margin = new System.Windows.Forms.Padding(2);
             this.OpenFileBtn.Name = "OpenFileBtn";
-            this.OpenFileBtn.Size = new System.Drawing.Size(92, 43);
+            this.OpenFileBtn.Size = new System.Drawing.Size(61, 28);
             this.OpenFileBtn.TabIndex = 3;
             this.OpenFileBtn.Text = "Open File";
             this.OpenFileBtn.UseVisualStyleBackColor = true;
@@ -75,27 +83,39 @@
             // 
             // newBtn
             // 
-            this.newBtn.Location = new System.Drawing.Point(610, 8);
+            this.newBtn.Location = new System.Drawing.Point(407, 5);
+            this.newBtn.Margin = new System.Windows.Forms.Padding(2);
             this.newBtn.Name = "newBtn";
-            this.newBtn.Size = new System.Drawing.Size(83, 44);
+            this.newBtn.Size = new System.Drawing.Size(55, 29);
             this.newBtn.TabIndex = 4;
             this.newBtn.Text = "New";
             this.newBtn.UseVisualStyleBackColor = true;
-            this.newBtn.Click += new System.EventHandler(this.newTextField);
+            this.newBtn.Click += new System.EventHandler(this.NewTextField);
+            // 
+            // InformationLbl
+            // 
+            this.InformationLbl.AutoSize = true;
+            this.InformationLbl.Location = new System.Drawing.Point(6, 587);
+            this.InformationLbl.Name = "InformationLbl";
+            this.InformationLbl.Size = new System.Drawing.Size(0, 13);
+            this.InformationLbl.TabIndex = 5;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 937);
+            this.ClientSize = new System.Drawing.Size(533, 609);
+            this.Controls.Add(this.InformationLbl);
             this.Controls.Add(this.newBtn);
             this.Controls.Add(this.OpenFileBtn);
-            this.Controls.Add(richTextBoxWindow);
+            this.Controls.Add(this.richTextBoxWindow);
             this.Controls.Add(this.SaveAsBtn);
             this.Controls.Add(this.SaveBtn);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "dok1.txt";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -105,7 +125,8 @@
         private System.Windows.Forms.Button SaveAsBtn;
         private System.Windows.Forms.Button OpenFileBtn;
         private System.Windows.Forms.Button newBtn;
-        public static System.Windows.Forms.RichTextBox richTextBoxWindow;
+        public System.Windows.Forms.RichTextBox richTextBoxWindow;
+        private System.Windows.Forms.Label InformationLbl;
     }
 }
 
