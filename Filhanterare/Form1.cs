@@ -111,13 +111,33 @@ namespace Filhanterare
                 try
                 {
 
-
                     if (filename is string[] list && !string.IsNullOrWhiteSpace(list[0]))
                     {
-                        //richTextBoxWindow.Clear();
-                        richTextBoxWindow.LoadFile(list[0], RichTextBoxStreamType.PlainText);
-                    }
+                        switch(ModifierKeys)
+                        {
+                            case Keys.Control:
+                                string text = richTextBoxWindow.Text;
+                                richTextBoxWindow.Clear();
+                                richTextBoxWindow.LoadFile(list[0], RichTextBoxStreamType.PlainText);
+                                text += richTextBoxWindow.Text.ToString();
+                                richTextBoxWindow.Text = text;
+                                break;
+                            case Keys.Shift:
+                                //richTextBoxWindow.SelectionStart += richTextBoxWindow.SelectionLength;
+                                //richTextBoxWindow.SelectionLength = 0;
 
+                                //text = richTextBoxWindow.Text;
+                                //richTextBoxWindow.LoadFile(list[0], RichTextBoxStreamType.PlainText);
+                                //string temp = richTextBoxWindow.Text;
+                                //richTextBoxWindow.Text = text;
+                                //richTextBoxWindow.SelectedText = temp;
+                                break;
+                            default:
+                                richTextBoxWindow.Clear();
+                                richTextBoxWindow.LoadFile(list[0], RichTextBoxStreamType.PlainText);
+                                break;
+                        }
+                    }
                 }
                 catch(Exception ex)
                 {
