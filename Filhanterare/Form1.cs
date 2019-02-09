@@ -1,18 +1,20 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Filhanterare
 {
     public partial class Form1 : Form
     {
-        WindowHandler WindowHandler = new WindowHandler();
+        WindowHandler windowHandler = new WindowHandler();
         private bool isDataSaved;
 
         public Form1()
         {
             InitializeComponent();
-           
+
+            //Have this becouse the drag and drop function of the program. 
             richTextBoxWindow.DragDrop += new DragEventHandler(RichTextBoxWindow_DragDrop);
             richTextBoxWindow.EnableAutoDragDrop = false;
             richTextBoxWindow.AllowDrop = true;
@@ -25,9 +27,11 @@ namespace Filhanterare
             Closing += new CancelEventHandler(Form1_Closing);
             // Exchange commented line and note the difference.
             isDataSaved = true;
-            //this.isDataSaved = false;
+         
         }
 
+        //Save button function, if the user wants to save. Saves and remove astrix that shows that the
+        //document have been changes.
         private void SaveBtn_Click(object sender, EventArgs e)
         {
             ActiveForm.Text = ActiveForm.Text.TrimEnd('*');
@@ -37,7 +41,7 @@ namespace Filhanterare
         }
 
         
-
+        //Save as function. Is almost the same as above function but the user is prompt with a save as window.
         private void SaveAsBtn_Click(object sender, EventArgs e)
         {
             ActiveForm.Text = ActiveForm.Text.TrimEnd('*');
@@ -46,24 +50,25 @@ namespace Filhanterare
             isDataSaved = true;
         }
 
+        //Open a new file.
         private void OpenFileBtn_Click(object sender, EventArgs e)
         {
-            //string text = richTextBoxWindow.Text = fileContent.ToString();
-            //NameOfTheCurrentText = DialogHandler.OpenFileDialogWindow();
-
-            richTextBoxWindow.Text = DialogHandler.OpenFileDialogWindow();
+            richTextBoxWindow.Text = DialogHandler.OpenFileDialogWindow(richTextBoxWindow);
         }
 
+        //Create a new file. Ask if the user want to save before clearing textbox. 
         private void NewTextField(object sender, EventArgs e)
         {
+            DialogHandler.SaveQuestion(richTextBoxWindow);
             richTextBoxWindow.Text = string.Empty;
 
             ActiveForm.Text = "dok1.txt".ToString();
         }
 
+        //Update information about the text. Also add an astrix if the text is changed.
         private void RichTextBoxWindow_TextChanged(object sender, EventArgs e)
         {
-            WindowHandler.TextChange();
+            windowHandler.TextChange();
             isDataSaved = false;
             string text = richTextBoxWindow.ToString();
             int counter = text.Length;
@@ -72,14 +77,11 @@ namespace Filhanterare
                 " Rader " + richTextBoxWindow.Lines.Length;
         }
 
-
-       
-
+        //Closes the window. Promt if the user wants to quit, if yes! The user is prompt with an other 
+        //window asking if the user wants to save, if changes have been made in the document. 
         private void Form1_Closing(Object sender, CancelEventArgs e)
         {
             DialogResult dialogResult = MessageBox.Show("This will close down the whole application. Confirm?", "Close Application", MessageBoxButtons.YesNoCancel);
-
-
             switch (dialogResult)
             {
                 case DialogResult.Yes:
@@ -103,49 +105,7 @@ namespace Filhanterare
             }
         }
 
-        void RichTextBoxWindow_DragDrop(object sender, DragEventArgs e)
-        {
-            object filename = e.Data.GetData("FileDrop");
-            if (filename != null)
-            {
-                try
-                {
-
-                    if (filename is string[] list && !string.IsNullOrWhiteSpace(list[0]))
-                    {
-                        switch(ModifierKeys)
-                        {
-                            case Keys.Control:
-                                string text = richTextBoxWindow.Text;
-                                richTextBoxWindow.Clear();
-                                richTextBoxWindow.LoadFile(list[0], RichTextBoxStreamType.PlainText);
-                                text += richTextBoxWindow.Text.ToString();
-                                richTextBoxWindow.Text = text;
-                                break;
-                            case Keys.Shift:
-                                //richTextBoxWindow.SelectionStart += richTextBoxWindow.SelectionLength;
-                                //richTextBoxWindow.SelectionLength = 0;
-
-                                //text = richTextBoxWindow.Text;
-                                //richTextBoxWindow.LoadFile(list[0], RichTextBoxStreamType.PlainText);
-                                //string temp = richTextBoxWindow.Text;
-                                //richTextBoxWindow.Text = text;
-                                //richTextBoxWindow.SelectedText = temp;
-                                break;
-                            default:
-                                richTextBoxWindow.Clear();
-                                richTextBoxWindow.LoadFile(list[0], RichTextBoxStreamType.PlainText);
-                                break;
-                        }
-                    }
-                }
-                catch(Exception ex)
-                {
-                    throw ex;
-                }
-               
-
-            }
-        }
+        //Call the drag and drop function in WindowHandler class. 
+        void RichTextBoxWindow_DragDrop(object sender, DragEventArgs e) => windowHandler.DragAndDrop(e, richTextBoxWindow, ModifierKeys);
     }
 }

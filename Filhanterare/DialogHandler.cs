@@ -32,8 +32,10 @@ namespace Filhanterare
         }
 
         //Open txt file and reads in the information from  file to richtextbox.
-        public static string OpenFileDialogWindow()
+        public static string OpenFileDialogWindow(RichTextBox richTextBox)
         {
+            SaveQuestion(richTextBox);
+
             try
             {
                 using (OpenFileDialog openFileDialog = new OpenFileDialog())
@@ -60,16 +62,29 @@ namespace Filhanterare
                             string path = filePath.ToString();
                             string[] pathArr = path.Split('\\');
                             string fileName = pathArr.Last().ToString();
-                            Form1.ActiveForm.Text = fileName.ToString();
+                            Form.ActiveForm.Text = fileName.ToString();
                         }
                     }
                 }
             }
-            catch(FileLoadException e)
+            catch (FileLoadException e)
             {
                 throw new ApplicationException("Something wrong happened in the open module :", e);
             }
             return fileContent.ToString();
+        }
+
+        //If the document is changed, promp a window ask if the user wants to save.
+        public static void SaveQuestion(RichTextBox richTextBox)
+        {
+            if (Form.ActiveForm.Text.Contains("*"))
+            {
+                if (MessageBox.Show("Whould you like to save first?", "Close Application", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    SaveFile(richTextBox.Text);
+                    richTextBox.Clear();
+                }
+            }
         }
 
         //This is the save as function and it thus what you expect. Throw exception otherwise.
