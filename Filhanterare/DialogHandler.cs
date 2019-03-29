@@ -9,7 +9,9 @@ namespace Filhanterare
     class DialogHandler
     {
         private static string fileContent = string.Empty;
-        private static string filePath = string.Empty;
+        public static string filePath = string.Empty;
+        public static bool flagForOpenFile = false;
+        public static int counter = 0;
 
         //Saves the file. If there is no file path then the function calls the save as function.
         public static void SaveFile(string text)
@@ -35,6 +37,7 @@ namespace Filhanterare
         public static string OpenFileDialogWindow(RichTextBox richTextBox)
         {
             SaveQuestion(richTextBox);
+            flagForOpenFile = true;
 
             try
             {
@@ -79,7 +82,7 @@ namespace Filhanterare
         {
             if (Form.ActiveForm.Text.Contains("*"))
             {
-                if (MessageBox.Show("Whould you like to save first?", "Close Application", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("Whould you like to save first?", "Close Application", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
                     SaveFile(richTextBox.Text);
                     richTextBox.Clear();
@@ -102,7 +105,8 @@ namespace Filhanterare
                 // If the file name is not an empty string open it for saving.  
                 if (saveFileDialog1.FileName != "")
                 {
-                    if(saveFileDialog1.FilterIndex == 1)
+                    filePath = saveFileDialog1.FileName;
+                    if (saveFileDialog1.FilterIndex == 1)
                     {
                         using (FileStream f = File.Create(saveFileDialog1.FileName.ToString()))
                         {
@@ -112,7 +116,11 @@ namespace Filhanterare
                             f.Close();
                         }
                     }
-                    filePath = saveFileDialog1.FileName.ToString();
+                
+                    string path = saveFileDialog1.FileName.ToString();
+                    string[] pathArr = path.Split('\\');
+                    string fileName = pathArr.Last().ToString();
+                    Form.ActiveForm.Text = fileName.ToString();
                 }
             }
             catch(IOException e)
@@ -120,5 +128,21 @@ namespace Filhanterare
                 throw new ApplicationException("Something wrong happened in the save as module :", e);
             }
         }
+        public static string WordCount( string s)
+        {
+            return s.Split(new char[] { ' ' },
+              StringSplitOptions.RemoveEmptyEntries).Length.ToString();
+        }
+        public static int LetterCount(string s)
+        {
+            foreach(var l in s )
+            {
+                if (l.Equals(' '))
+                    counter++;
+            }
+
+            return counter;
+        }
+
     }
 }

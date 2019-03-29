@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace Filhanterare
@@ -54,14 +55,16 @@ namespace Filhanterare
         private void OpenFileBtn_Click(object sender, EventArgs e)
         {
             richTextBoxWindow.Text = DialogHandler.OpenFileDialogWindow(richTextBoxWindow);
+            
         }
 
         //Create a new file. Ask if the user want to save before clearing textbox. 
         private void NewTextField(object sender, EventArgs e)
         {
+          
             DialogHandler.SaveQuestion(richTextBoxWindow);
             richTextBoxWindow.Text = string.Empty;
-
+            DialogHandler.filePath = string.Empty;
             ActiveForm.Text = "dok1.txt".ToString();
         }
 
@@ -70,42 +73,56 @@ namespace Filhanterare
         {
             windowHandler.TextChange();
             isDataSaved = false;
-            string text = richTextBoxWindow.ToString();
-            int counter = text.Length;
-            int counterWithOutSpace = text.Trim(' ').Length;
-            InformationLbl.Text = "Antal ord " + richTextBoxWindow.TextLength + " Antal ord utan mellanslag " + richTextBoxWindow.Text.Trim(' ').Length +
-                " Rader " + richTextBoxWindow.Lines.Length;
+
+           
+            string text = richTextBoxWindow.Text.ToString();
+            string a = string.Concat(text.Where(c => !char.IsWhiteSpace(c)));
+            int counter  = a.Length;
+        
+
+
+            InformationLbl.Text = "Antal bokstäver: " + richTextBoxWindow.Text.Length + " Antal bokstäver utan mellanslag: " + counter.ToString() +
+            " Antal rader: " + richTextBoxWindow.Lines.Length + " Antal ord: " + DialogHandler.WordCount(richTextBoxWindow.Text);
         }
 
+        
         //Closes the window. Promt if the user wants to quit, if yes! The user is prompt with an other 
         //window asking if the user wants to save, if changes have been made in the document. 
         private void Form1_Closing(Object sender, CancelEventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("This will close down the whole application. Confirm?", "Close Application", MessageBoxButtons.YesNoCancel);
+            DialogResult dialogResult = MessageBox.Show("Whould you like to save first?", "Close Application", MessageBoxButtons.YesNoCancel);
+       
             switch (dialogResult)
             {
                 case DialogResult.Yes:
-                    if (!isDataSaved)
+                    if (!isDataSaved && ((ControlAccessibleObject)((Control)sender).AccessibilityObject).Name.Contains("*") == true)
                     {
-                        if (MessageBox.Show("Whould you like to save first?", "Close Application", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
-                            e.Cancel = true;
-                            SaveAsBtn_Click(sender, e);
-                            Application.Exit();
-                        }
+                        e.Cancel = true;
+                        string text = richTextBoxWindow.Text;
+                        DialogHandler.SaveFile(text);
+                        Application.Exit();
                     }
                     else
                     {
                         e.Cancel = false;
+                        Application.Exit();
                     }
                     break;
                 default:
                     e.Cancel = true;
+                    Application.Exit();
                     break;
             }
         }
 
         //Call the drag and drop function in WindowHandler class. 
         void RichTextBoxWindow_DragDrop(object sender, DragEventArgs e) => windowHandler.DragAndDrop(e, richTextBoxWindow, ModifierKeys);
+
+        private void CloseBtn_Click(object sender, EventArgs e)
+        {
+            
+            DialogHandler.SaveQuestion(richTextBoxWindow);
+            Application.Exit();
+        }
     }
 }

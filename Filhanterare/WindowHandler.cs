@@ -1,9 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
-
-
 
 
 
@@ -14,10 +11,11 @@ namespace Filhanterare
         //If the document have been changed, adds an astrix.
         public void TextChange()
         {
-            if (!Form.ActiveForm.Text.Contains("*"))
+            if (!Form.ActiveForm.Text.Contains("*") && DialogHandler.flagForOpenFile == false)
             {
                 Form.ActiveForm.Text = Form.ActiveForm.Text.ToString() + "*";
             }
+            DialogHandler.flagForOpenFile = false;
         }
 
         //Drag and drop function. 
@@ -60,6 +58,11 @@ namespace Filhanterare
                         if (MessageBox.Show("Whould you like to save first?", "Close Application", MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             DialogHandler.SaveFile(richTextBox.Text);
+                            richTextBox.Clear();
+                            richTextBox.Text = s;
+                        }
+                        else
+                        {
                             richTextBox.Clear();
                             richTextBox.Text = s;
                         }

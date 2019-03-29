@@ -34,6 +34,7 @@
             this.OpenFileBtn = new System.Windows.Forms.Button();
             this.newBtn = new System.Windows.Forms.Button();
             this.InformationLbl = new System.Windows.Forms.Label();
+            this.CloseBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // SaveBtn
@@ -100,11 +101,22 @@
             this.InformationLbl.Size = new System.Drawing.Size(0, 13);
             this.InformationLbl.TabIndex = 5;
             // 
+            // CloseBtn
+            // 
+            this.CloseBtn.Location = new System.Drawing.Point(323, 6);
+            this.CloseBtn.Name = "CloseBtn";
+            this.CloseBtn.Size = new System.Drawing.Size(79, 28);
+            this.CloseBtn.TabIndex = 6;
+            this.CloseBtn.Text = "Close";
+            this.CloseBtn.UseVisualStyleBackColor = true;
+            this.CloseBtn.Click += new System.EventHandler(this.CloseBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(533, 609);
+            this.Controls.Add(this.CloseBtn);
             this.Controls.Add(this.InformationLbl);
             this.Controls.Add(this.newBtn);
             this.Controls.Add(this.OpenFileBtn);
@@ -127,6 +139,7 @@
         private System.Windows.Forms.Button newBtn;
         public System.Windows.Forms.RichTextBox richTextBoxWindow;
         private System.Windows.Forms.Label InformationLbl;
+        private System.Windows.Forms.Button CloseBtn;
     }
 }
 
